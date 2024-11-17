@@ -1,0 +1,49 @@
+getwd()
+setwd("D:/Andat")
+data <- read.csv("Customer Satisfaction.csv", sep=",", header= TRUE)
+data
+
+#Check the packaging
+nrow(data)
+ncol(data)
+str(data)
+
+#Look at the top and the bottom of your data
+head(data)
+tail(data)
+
+#Check your “n”s
+dim(data)
+library(dplyr)
+satisfaction <- data %>%
+  filter(!is.na(Keseluruhan.Pengalaman.Pengiriman), !is.na(Kualitas.Makanan))
+print(satisfaction$Kualitas.Makanan)
+print(satisfaction$Keseluruhan.Pengalaman.Pengiriman)
+dim(satisfaction)
+
+#Validate with at least one external data source
+summary(satisfaction$Kualitas.Makanan)
+summary(satisfaction$Keseluruhan.Pengalaman.Pengiriman)
+
+#Make a plot 
+library(ggplot2)  
+ggplot(satisfaction, aes(Kualitas.Makanan, Keseluruhan.Pengalaman.Pengiriman)) + 
+  geom_boxplot(colour="blue") 
+
+#Try the easy solution first
+summary(satisfaction)
+ggplot(satisfaction, aes(Kualitas.Makanan)) + geom_boxplot(colour="green")
+
+#Follow up
+
+#Model as Expectations
+y=satisfaction$Keseluruhan.Pengalaman.Pengiriman
+x=satisfaction$Kualitas.Makanan
+lm(y~x, data = satisfaction)
+model=lm(y~x)
+summary(model) 
+
+#Histogram variabel dependen
+ggplot(data, aes(Keseluruhan.Pengalaman.Pengiriman))+
+  geom_histogram(colour="blue")
+knitr::opts_chunk$set(echo = TRUE)
